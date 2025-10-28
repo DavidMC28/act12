@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block titulo %}Vuelos | Sistema de Gestión de Aerolínea{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Todos los Vuelos</h2>
+</div>
+
+{% if vuelos %}
+<ul class="item-list">
+    {% for vuelo in vuelos %}
+    <li class="list-item-with-actions">
+        <span>
+            <strong>Vuelo {{ vuelo.numero_vuelo }}</strong> - 
+            {{ vuelo.origen }} → {{ vuelo.destino }} - 
+            {{ vuelo.fecha_hora_salida|date:"d/m/Y H:i" }} -
+            Avión: {{ vuelo.id_avion.modelo_avion }}
+        </span>
+        <div>
+            <a href="{% url 'app_vuelos:detalle_vuelo' vuelo.id_vuelo %}" class="btn btn-small btn-secondary">👁️ Ver</a>
+            <a href="{% url 'app_vuelos:editar_vuelo' vuelo.id_vuelo %}" class="btn btn-small btn-secondary">✏️ Editar</a>
+            <a href="{% url 'app_vuelos:borrar_vuelo' vuelo.id_vuelo %}" class="btn btn-small btn-danger">🗑️ Borrar</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="no-items">
+    <div style="font-size: 4rem; margin-bottom: 1rem;">✈️</div>
+    <h3>No hay vuelos programados</h3>
+    <p>Comienza programando un vuelo desde el detalle de un avión</p>
+    <a href="{% url 'app_vuelos:listar_aviones' %}" class="btn btn-primary" style="margin-top: 1rem;">Ver Aviones</a>
+</div>
+{% endif %}
+{% endblock %}

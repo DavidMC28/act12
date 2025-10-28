@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block titulo %}Aviones | Sistema de Gestión de Aerolínea{% endblock %}
+{% block contenido %}
+<div class="page-header">
+    <h2>Aviones Registrados</h2>
+    <a href="{% url 'app_vuelos:crear_avion' %}" class="btn btn-primary">+ Agregar Avión</a>
+</div>
+
+{% if aviones %}
+<ul class="item-grid">
+    {% for avion in aviones %}
+    <li class="item-card">
+        <a href="{% url 'app_vuelos:detalle_avion' avion.id_avion %}">
+            {% if avion.foto %}
+                <img src="{{ avion.foto.url }}" alt="{{ avion.modelo_avion }}" class="item-img">
+            {% else %}
+                <div class="item-placeholder">🛩️</div>
+            {% endif %}
+            <h3>{{ avion.modelo_avion }}</h3>
+            <p class="item-info">
+                <strong>Capacidad:</strong> {{ avion.capacidad_pasajeros }} pasajeros
+            </p>
+            <p class="item-info">
+                <strong>Año:</strong> {{ avion.anio_fabricacion }}
+            </p>
+            <p class="item-info">
+                <strong>Estado:</strong> 
+                <span class="status-badge status-{{ avion.estado_mantenimiento }}">
+                    {{ avion.get_estado_mantenimiento_display }}
+                </span>
+            </p>
+        </a>
+        <div class="actions">
+            <a href="{% url 'app_vuelos:editar_avion' avion.id_avion %}" class="btn btn-small btn-secondary">✏️ Editar</a>
+            <a href="{% url 'app_vuelos:borrar_avion' avion.id_avion %}" class="btn btn-small btn-danger">🗑️ Borrar</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="no-items">
+    <div style="font-size: 4rem; margin-bottom: 1rem;">🛩️</div>
+    <h3>No hay aviones registrados</h3>
+    <p>Comienza agregando tu primer avión al sistema</p>
+    <a href="{% url 'app_vuelos:crear_avion' %}" class="btn btn-primary" style="margin-top: 1rem;">Agregar Primer Avión</a>
+</div>
+{% endif %}
+{% endblock %}

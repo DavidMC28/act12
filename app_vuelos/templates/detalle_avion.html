@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ avion.modelo_avion }} | Sistema de Gestión de Aerolínea{% endblock %}
+
+{% block contenido %}
+<article class="item-detail">
+    <div class="item-banner">
+        {% if avion.foto and avion.foto.name %}
+            <img src="{{ avion.foto.url }}" alt="{{ avion.modelo_avion }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">🛩️</div>
+        {% endif %}
+        <div class="item-info">
+            <h1>{{ avion.modelo_avion }}</h1>
+            <h3>Información del Avión</h3>
+            <p><strong>Capacidad de Pasajeros:</strong> {{ avion.capacidad_pasajeros }} pasajeros</p>
+            <p><strong>Año de Fabricación:</strong> {{ avion.anio_fabricacion }}</p>
+            <p><strong>Estado de Mantenimiento:</strong> 
+                <span class="status-badge status-{{ avion.estado_mantenimiento }}">
+                    {{ avion.get_estado_mantenimiento_display }}
+                </span>
+            </p>
+            <p><strong>Horas de Vuelo:</strong> {{ avion.horas_vuelo }} horas</p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_vuelos:editar_avion' avion.id_avion %}" class="btn btn-secondary">✏️ Editar Avión</a>
+        <a href="{% url 'app_vuelos:borrar_avion' avion.id_avion %}" class="btn btn-danger">🗑️ Borrar Avión</a>
+        <a href="{% url 'app_vuelos:crear_vuelo' avion.id_avion %}" class="btn btn-primary">➕ Programar Vuelo</a>
+    </div>
+
+    <section class="related-items-section">
+        <h2>Historial de Vuelos de {{ avion.modelo_avion }}</h2>
+        {% if vuelos_del_avion %}
+        <ul class="item-list">
+            {% for vuelo in vuelos_del_avion %}
+            <li class="list-item-with-actions">
+                <span>
+                    Vuelo {{ vuelo.numero_vuelo }} - 
+                    {{ vuelo.origen }} → {{ vuelo.destino }} - 
+                    {{ vuelo.fecha_hora_salida|date:"d/m/Y H:i" }}
+                </span>
+                <div>
+                    <a href="{% url 'app_vuelos:detalle_vuelo' vuelo.id_vuelo %}" class="btn btn-small btn-secondary">👁️ Ver</a>
+                    <a href="{% url 'app_vuelos:editar_vuelo' vuelo.id_vuelo %}" class="btn btn-small btn-secondary">✏️ Editar</a>
+                    <a href="{% url 'app_vuelos:borrar_vuelo' vuelo.id_vuelo %}" class="btn btn-small btn-danger">🗑️ Borrar</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="no-items">Este avión no tiene vuelos programados.</p>
+        {% endif %}
+    </section>
+</article>
+{% endblock %}

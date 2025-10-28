@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block titulo %}Vuelo {{ vuelo.numero_vuelo }} | Sistema de Gestión de Aerolínea{% endblock %}
+
+{% block contenido %}
+<article class="item-detail">
+    <div class="item-banner">
+        <div class="detail-placeholder">✈️</div>
+        <div class="item-info">
+            <h1>Vuelo {{ vuelo.numero_vuelo }}</h1>
+            <h3>Información del Vuelo</h3>
+            <p><strong>Ruta:</strong> {{ vuelo.origen }} → {{ vuelo.destino }}</p>
+            <p><strong>Fecha y Hora de Salida:</strong> {{ vuelo.fecha_hora_salida|date:"d/m/Y H:i" }}</p>
+            <p><strong>Avion:</strong> {{ vuelo.id_avion.modelo_avion }}</p>
+            <p><strong>Capacidad del Avión:</strong> {{ vuelo.id_avion.capacidad_pasajeros }} pasajeros</p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_vuelos:editar_vuelo' vuelo.id_vuelo %}" class="btn btn-secondary">✏️ Editar Vuelo</a>
+        <a href="{% url 'app_vuelos:borrar_vuelo' vuelo.id_vuelo %}" class="btn btn-danger">🗑️ Borrar Vuelo</a>
+        <a href="{% url 'app_vuelos:detalle_avion' vuelo.id_avion.id_avion %}" class="btn btn-primary">👀 Ver Avión</a>
+    </div>
+</article>
+{% endblock %}

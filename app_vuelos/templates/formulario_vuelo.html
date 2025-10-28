@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ titulo }} | Sistema de Gestión de Aerolínea{% endblock %}
+
+{% block contenido %}
+<h2>{{ titulo }}</h2>
+<p>Avion: <strong>{{ avion.modelo_avion }}</strong></p>
+<form method="post" class="form-styled">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'app_vuelos:detalle_avion' avion.id_avion %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

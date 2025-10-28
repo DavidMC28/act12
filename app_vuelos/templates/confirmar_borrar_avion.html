@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block titulo %}Eliminar Avión 🗑️ | Sistema de Gestión de Aerolínea{% endblock %}
+
+{% block contenido %}
+<h2>¿Estás seguro de que quieres borrar el avión "{{ avion.modelo_avion }}"?</h2>
+<p>Todos los vuelos asociados también serán eliminados. Esta acción no se puede deshacer.</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="actions">
+        <button type="submit" class="btn btn-danger">Sí, Borrar Avión</button>
+        <a href="{% url 'app_vuelos:detalle_avion' avion.id_avion %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}
